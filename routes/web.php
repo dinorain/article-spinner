@@ -15,11 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*
 Route::get('/hello', function () {
     return '<h1>Hello World</h1>';
 });
 
+Route::get('/user/{id}/{name}', function ($id, $name) {
+    return 'Name: '.$name.' ('.$id.')';
+});
+*/
+
 Route::get('/about', function () {
     return view('pages.about');
 });
-
