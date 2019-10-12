@@ -28,3 +28,6 @@ Route::get('/user/{id}/{name}', function ($id, $name) {
 Route::get('/about', function () {
     return view('pages.about');
 });
+
+Route::get('/index', 'PagesController@index');
+Route::get('/services', 'PagesController@services');
