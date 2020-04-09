@@ -11,24 +11,42 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@welcome')->name('welcome');
 
-/*
-Route::get('/hello', function () {
-    return '<h1>Hello World</h1>';
-});
+Auth::routes([
+//    'verify' => true,
+    'register' => false,
+]);
+Route::post('/login', 'Auth\LoginController@login')->name('login');
 
-Route::get('/user/{id}/{name}', function ($id, $name) {
-    return 'Name: '.$name.' ('.$id.')';
-});
-*/
+Route::group(['middleware' => ['auth', 'verified']], function () {
 
-Route::get('/about', function () {
-    return view('pages.about');
-});
+    Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::get('/contact', 'PagesController@contact');
-Route::get('/services', 'PagesController@services');
-Route::get('/home', 'PagesController@home');
+    // non-admin route group
+    Route::group(['middleware' => ['can:isntAdmin']], function () {
+
+        Route::get('/home', 'UserController@home')->name('home');
+
+        /**
+         * Edit account personal information
+         */
+        Route::get('/accounts/personal', 'UserController@editPersonal')->name('account.personal.edit');
+        Route::post('/accounts/personal', 'UserController@updatePersonal')->name('account.personal.update');
+
+        /**
+         * Edit account password
+         */
+        Route::get('/accounts/password', 'UserController@editPassword')->name('account.password.edit');
+        Route::post('/accounts/password', 'UserController@updatePassword')->name('account.password.update');
+
+    });
+
+    // admin routes
+    Route::group(['middleware' => ['can:isAdmin']], function () {
+        Route::group(['prefix' => 'openSesame'], function () {
+            Route::any('/', 'AdminController@index')->name('admin.index');
+            Route::any('/{slug}', 'AdminController@index')->where('slug', '.*');
+        });
+    });
+});
