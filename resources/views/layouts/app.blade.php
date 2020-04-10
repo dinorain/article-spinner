@@ -10,9 +10,28 @@
     </head>
 
     <body>
-        @include('include.navbar')
+        <!-- ============================================================== -->
+        <!-- main wrapper -->
+        <!-- ============================================================== -->
+        <div class="dashboard-main-wrapper">
+            <!-- ============================================================== -->
+            <!-- navbar -->
+            <!-- ============================================================== -->
+            <div class="dashboard-header">
 
-        @yield('content')
+                @include('include.navbar')
+
+                <!-- ============================================================== -->
+                <!-- wrapper  -->
+                <!-- ============================================================== -->
+                <div class="dashboard-wrapper">
+                    <div class="container-fluid dashboard-content">
+                        @yield('content')
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
         <!-- JS Scripts -->
         @include('include.script')
