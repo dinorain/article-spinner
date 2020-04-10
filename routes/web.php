@@ -26,7 +26,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     // non-admin route group
     Route::group(['middleware' => ['can:isntAdmin']], function () {
 
-        Route::get('/home', 'UserController@home')->name('home');
 
         /**
          * Edit account personal information

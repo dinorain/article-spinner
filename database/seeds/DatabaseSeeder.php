@@ -11,6 +11,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $mode = $this->command->ask('Seed for production/testing (p/t)?', 'p');
+
+        if ($mode === 'p') {
+            $this->command->info("Seeding for production..");
+            $this->call([
+                UsersTableSeeder::class
+            ]);
+        } else if ($mode === 't') {
+            $this->command->info("Seeding for testing..");
+            $this->call([
+                UsersTableSeeder::class,
+                SpintaxInputsTableSeeder::class,
+                SpintaxOutputsTableSeeder::class
+            ]);
+        }
     }
 }
