@@ -13,6 +13,7 @@
 
 Route::get('/', 'HomeController@welcome')->name('welcome');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/', 'HomeController@spin')->name('home.spin');
 
 Auth::routes([
 //    'verify' => true,
