@@ -18,6 +18,7 @@ Auth::routes([
 //    'verify' => true,
     'register' => false,
 ]);
+
 Route::post('/login', 'Auth\LoginController@loginUser')->name('login');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
