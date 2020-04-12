@@ -49,7 +49,7 @@
                                     ></textarea>
 
                                     <p> Spintax 1: Content -> Spintax. |
-                                        Spintax 2: Content -> Spintax + original word deleted. |
+                                        Spintax 2: Content -> Spintax + original word excluded. |
                                         Spin: Spintax -> spin result text.
                                     </p>
 
@@ -58,8 +58,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <button type="submit" class="btn btn-primary" name="spin" value="spintax_1">Spintax 1</button>
-                            <button type="submit" class="btn btn-primary" name="spin" value="spintax_2">Spintax 2</button>
+                            <button type="submit" class="btn btn-primary" name="spin" value="spintax1">Spintax 1</button>
+                            <button type="submit" class="btn btn-primary" name="spin" value="spintax2">Spintax 2</button>
                             <button type="submit" class="btn btn-primary" name="spin" value="spin">Spin</button>
                             <button type="button" class="btn btn-primary" id="output_reset">Reset result</button>
                         </div>

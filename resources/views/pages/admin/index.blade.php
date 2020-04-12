@@ -35,7 +35,7 @@
                                         @foreach ($inputs as $input)
                                         <tr>
                                             <td>{{ $input->target }}</td>
-                                            <td>{{ '{'.$spintaxCollections[$input->id].'}' }}</td>
+                                            <td>{{ '{'.$spintaxTargetIdDict[$input->id].'}' }}</td>
                                             <td>{{ Carbon\Carbon::parse($input->created_at)->format('d/m/Y h:m') }}</td>
                                             <td>{{ Carbon\Carbon::parse($input->updated_at)->format('d/m/Y h:m') }}</td>
                                             <td>

@@ -11,17 +11,17 @@ class AdminController extends Controller
     {
         $inputs = SpintaxInput::all();
 
-        $outputs = SpintaxOutput::orderBy('spintax', 'ASC')->get();
-        $spintaxCollections = [];
-        foreach ($outputs as $o) $spintaxCollections[$o->target_id] = '';
-        foreach ($outputs as $o)
-            $spintaxCollections[$o->target_id] =
-                $spintaxCollections[$o->target_id] === '' ?
-                    $spintaxCollections[$o->target_id].$o->spintax : $spintaxCollections[$o->target_id].'|'.$o->spintax;
+        $spintaxCollections = SpintaxOutput::orderBy('spintax', 'ASC')->get();
+        $spintaxTargetIdDict = [];
+        foreach ($spintaxCollections as $sc) $spintaxTargetIdDict[$sc->target_id] = '';
+        foreach ($spintaxCollections as $sc)
+            $spintaxTargetIdDict[$sc->target_id] =
+                $spintaxTargetIdDict[$sc->target_id] === '' ?
+                    $spintaxTargetIdDict[$sc->target_id].$sc->spintax : $spintaxTargetIdDict[$sc->target_id].'|'.$sc->spintax;
 
         $data = [
             'inputs' => $inputs,
-            'spintaxCollections' => $spintaxCollections
+            'spintaxTargetIdDict' => $spintaxTargetIdDict
         ];
 
         return view('pages.admin.index')->with($data);
