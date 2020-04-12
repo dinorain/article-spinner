@@ -42,6 +42,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['prefix' => 'openSesame'], function () {
         Route::any('/', 'AdminController@index')->name('admin.index');
         Route::any('/{slug}', 'AdminController@index')->where('slug', '.*');
+
+        Route::post('/targets', 'TargetController@store')->name('target.store');
+        Route::put('/targets/{id}', 'TargetController@update')->name('target.update');
+        Route::delete('/targets/{id}', 'TargetController@destroy')->name('target.destroy');
     });
 });
 

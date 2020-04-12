@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 use App\Model\SpintaxInput;
 use App\Model\SpintaxOutput;
@@ -54,18 +55,18 @@ class HomeController extends Controller
         return (bool) preg_match('/[A-Z]/', $str);
     }
 
-    public function spintax($result, $synonyms) {
+    public function spintax($result, $target, $synonyms) {
         if ($synonyms != '') {
             $result =
                 $result
                 .'{'
-                .$synonyms
+                .($target !== '' ? $target.'|'.$synonyms : $synonyms)
                 .'}';
         }
         return $result;
     }
 
-    public function process_spintax2($text)
+    public function process_spintax($text, $type)
     {
         $spintaxCollections = SpintaxOutput::orderBy('spintax', 'ASC')->get();
         $spintaxTargetIdDict = [];
@@ -75,50 +76,76 @@ class HomeController extends Controller
                 $spintaxTargetIdDict[$sc->target_id] === '' ?
                     $spintaxTargetIdDict[$sc->target_id].$sc->spintax : $spintaxTargetIdDict[$sc->target_id].'|'.$sc->spintax;
 
+
         $parts = preg_split('/(?<=\s)|(?<=\w)(?=[.,:;!?()-])|(?<=[.,!()?\x{201C}])(?=[^ ])/u', $text);
         $spintaxText = '';
 
         foreach ($parts as $p) {
             $trimmed_p = trim($p);
-            if (strlen($trimmed_p) == 1) {
+            $t = SpintaxInput::where('target', $trimmed_p)->first();
+            if (strlen($trimmed_p) == 1 || (strlen($trimmed_p) > 1 && !$this->is_part_upper(substr($trimmed_p,1)))) {
                 if ($this->starts_with_upper($trimmed_p)) {
-                    $t = SpintaxInput::where('target', strtolower($trimmed_p))->first();
-                    if ($t != null)
-                        $spintax = $this->spintax($spintaxText, ucwords($spintaxTargetIdDict[$t->id], "|"));
-                    else
+                    if ($t != null) {
+                        if ($type === 'spintax1') {
+                            $spintaxText = $this->spintax($spintaxText, $trimmed_p, ucwords($spintaxTargetIdDict[$t->id], "|"));
+                        }
+                        else if ($type === 'spintax2') {
+                            $spintaxText = $this->spintax($spintaxText, '', ucwords($spintaxTargetIdDict[$t->id], "|"));
+                        }
+                        else {
+
+                        }
+                    }
+                    else {
                         $spintaxText = $spintaxText.$trimmed_p;
+
+                        // if (ctype_alpha($trimmed_p)) {
+                        //     $client =  new Client;
+                        //     $res = $client->request('POST','https://www.persamaankata.com/search.php',[
+                        //         'form_params' => [
+                        //             'q' =>  strtolower($trimmed_p)
+                        //         ]
+                        //     ]);
+                        //     dd(json_decode($res->getBody()->getContents(), true));
+                        // }
+                        // else {
+                        //     $spintaxText = $spintaxText.$trimmed_p;
+                        // }
+                    }
                 }
                 else
                 {
-                    $t = SpintaxInput::where('target', $trimmed_p)->first();
-                    if ($t != null)
-                        $spintaxText = $this->spintax($spintaxText, $spintaxTargetIdDict[$t->id]);
-                    else
+                    if ($t != null) {
+                        if ($type === 'spintax1') {
+                            $spintaxText =$this->spintax($spintaxText, strtolower($trimmed_p), $spintaxTargetIdDict[$t->id]);
+                        }
+                        else if ($type === 'spintax2') {
+                            $spintaxText = $this->spintax($spintaxText, '', $spintaxTargetIdDict[$t->id]);
+                        }
+                        else {
+
+                        }
+                    }
+                    else {
                         $spintaxText = $spintaxText.$trimmed_p;
-                }
-            }
-            else {
-                if (!$this->is_part_upper(substr($trimmed_p,1))) {
-                    if ($this->starts_with_upper($trimmed_p)) {
-                        $t = SpintaxInput::where('target', strtolower($trimmed_p))->first();
-                        if ($t != null)
-                            $spintaxText = $this->spintax($spintaxText, ucwords($spintaxTargetIdDict[$t->id], "|"));
-                        else
-                            $spintaxText = $spintaxText.$trimmed_p;
-                    }
-                    else
-                    {
-                        $t = SpintaxInput::where('target', $trimmed_p)->first();
-                        if ($t != null)
-                            $spintaxText = $this->spintax($spintaxText, $spintaxTargetIdDict[$t->id]);
-                        else
-                            $spintaxText = $spintaxText.$trimmed_p;
+
+                        // if (ctype_alpha($trimmed_p)) {
+                        //     $client =  new Client;
+                        //     $res = $client->request('POST','https://www.persamaankata.com/search.php',[
+                        //         'form_params' => [
+                        //             'q' =>  strtolower($trimmed_p)
+                        //         ]
+                        //     ]);
+                        //     dd(json_decode($res->getBody()->getContents(), true));
+                        // }
+                        // else {
+                        //     $spintaxText = $spintaxText.$trimmed_p;
+                        // }
                     }
                 }
-                else {
-                    $spintaxText = $spintaxText.$trimmed_p;
-                }
             }
+            else
+                $spintaxText = $spintaxText.$trimmed_p;
 
             if (strpos($p, ' '))
                 $spintaxText = $spintaxText.' ';
@@ -126,18 +153,17 @@ class HomeController extends Controller
         return $spintaxText;
     }
 
-
     public function spin(Request $request)
     {
         $output = null;
         if ($request->spin === 'spin') {
             $output = $this->process_spin($request->spinner_input);
         }
-        else if ($request->spin === 'spintax1') {
-            $output = $this->process_spintax1($request->spinner_input);
+        else if ($request->spin === 'spintax1' || $request->spin === 'spintax2') {
+            $output = $this->process_spintax($request->spinner_input, $request->spin);
         }
-        else if ($request->spin === 'spintax2') {
-            $output = $this->process_spintax2($request->spinner_input);
+        else {
+
         }
 
         $data = [

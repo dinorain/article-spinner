@@ -10,6 +10,8 @@
 
         <div class="content">
 
+            <a href="#" class="btn btn-primary mb-3" onclick="showCreateTargetDialog.apply(this, arguments)">Add a target</a>
+            {{-- <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTargetModal">Add a target</a> --}}
             <div class="row">
                 <!-- ============================================================== -->
                 <!-- data table  -->
@@ -25,7 +27,7 @@
                                     <thead>
                                         <tr>
                                             <th>Target</th>
-                                            <th>Spintax 1</th>
+                                            <th>Spintax 2</th>
                                             <th>Created at</th>
                                             <th>Updated at</th>
                                             <th></th>
@@ -40,10 +42,20 @@
                                             <td>{{ Carbon\Carbon::parse($input->updated_at)->format('d/m/Y h:m') }}</td>
                                             <td>
                                                 <div class="btn-group ml-auto">
-                                                    <button class="btn btn-sm btn-outline-light">Edit</button>
-                                                    <button class="btn btn-sm btn-outline-light">
+                                                    <a
+                                                        href="#"
+                                                        class="btn btn-sm btn-outline-light"
+                                                        onclick="showEditTargetDialog({{ $input->id }}).apply(this, arguments)"
+                                                    >
+                                                        Edit
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        class="btn btn-sm btn-outline-light"
+                                                        onclick="showDeleteTargetDialog({{ $input->id }}, '{{ "$input->target" }}').apply(this, arguments)"
+                                                    >
                                                         <i class="far fa-trash-alt"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -61,9 +73,15 @@
         </div>
 
     </div>
+
+    @include('dialogs.target.create-edit')
+    @include('dialogs.target.delete')
 @endsection
 
 @section('js')
+    @include('dialogs.target.create-edit-js')
+    @include('dialogs.target.delete-js')
+
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
