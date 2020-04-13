@@ -19,7 +19,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="mb-0">Spintax Collections</h5>
+                            <h5 class="mb-0"><a href="{{ route('target.index') }}">{{ $spintaxInput->target }}</a>Spintax Collections</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -34,25 +34,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($inputs as $input)
+                                        @foreach ($spintaxCollections as $sc)
                                         <tr>
-                                            <td>{{ $input->target }}</td>
-                                            <td>{{ '{'.($spintaxTargetIdDict[$input->id] === null ? '' : $spintaxTargetIdDict[$input->id]).'}' }}</td>
-                                            <td>{{ Carbon\Carbon::parse($input->created_at)->format('d/m/Y h:m') }}</td>
-                                            <td>{{ Carbon\Carbon::parse($input->updated_at)->format('d/m/Y h:m') }}</td>
+                                            <td>{{ $spintaxInput->target }}</td>
+                                            <td>{{ $sc->spintax }}</td>
+                                            <td>{{ Carbon\Carbon::parse($sc->created_at)->format('d/m/Y h:m') }}</td>
+                                            <td>{{ Carbon\Carbon::parse($sc->updated_at)->format('d/m/Y h:m') }}</td>
                                             <td>
                                                 <div class="btn-group ml-auto">
                                                     <a
                                                         href="#"
                                                         class="btn btn-sm btn-outline-light"
-                                                        onclick="showEditTargetDialog({{ $input->id }}).apply(this, arguments)"
+                                                        onclick="showEditSpintaxDialog({{ $sc->id }}).apply(this, arguments)"
                                                     >
                                                         Edit
                                                     </a>
                                                     <a
                                                         href="#"
                                                         class="btn btn-sm btn-outline-light"
-                                                        onclick="showDeleteTargetDialog({{ $input->id }}, '{{ "$input->target" }}').apply(this, arguments)"
+                                                        onclick="showDeleteSpintaxDialog({{ $sc->id }}, '{{ "$sc->spintax" }}').apply(this, arguments)"
                                                     >
                                                         <i class="far fa-trash-alt"></i>
                                                     </a>
@@ -74,13 +74,13 @@
 
     </div>
 
-    @include('dialogs.target.create-edit')
-    @include('dialogs.target.delete')
+    @include('dialogs.spintax.create-edit')
+    @include('dialogs.spintax.delete')
 @endsection
 
 @section('js')
-    @include('dialogs.target.create-edit-js')
-    @include('dialogs.target.delete-js')
+    @include('dialogs.spintax.create-edit-js')
+    @include('dialogs.spintax.delete-js')
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/datatables/dataTables.bootstrap4.min.js') }}"></script>

@@ -1,16 +1,16 @@
-<div class="modal fade" id="create-edit-target-dialog" tabindex="-1" role="dialog" aria-labelledby="createEditTargetModalLabel" aria-hidden="true">
+<div class="modal fade" id="create-edit-spintax-dialog" tabindex="-1" role="dialog" aria-labelledby="createEditSargetModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createEditTargetModalLabel">Add Target</h5>
+                <h5 class="modal-title" id="createEditSpintaxModalLabel">Add Spintax</h5>
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
             </div>
             <form
-                id="create-edit-target-form"
+                id="create-edit-spintax-form"
                 method="POST"
-                action="{{ route('target.store') }}"
+                action="{{ route('spintax.store') }}"
                 enctype="multipart/form-data"
                 data-parsley-validate
             >
@@ -23,13 +23,19 @@
                         type="hidden"
                         value=""
                     />
+                    <input
+                        id="target_id"
+                        name="target_id"
+                        type="hidden"
+                        value="{{ $spintaxInput->id }}"
+                    />
 
                     <div class="form-group row">
-                      <label for="target" class="col-sm-3 col-form-label">Input target</label>
+                      <label for="spintax" class="col-sm-3 col-form-label">Input spintax</label>
                       <div class="col-sm-9">
                         <input
-                            id="target"
-                            name="target"
+                            id="spintax"
+                            name="spintax"
                             type="text"
                             class="form-control"
                             value=""

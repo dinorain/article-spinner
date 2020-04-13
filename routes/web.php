@@ -41,11 +41,17 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['prefix' => 'openSesame'], function () {
         Route::any('/', 'AdminController@index')->name('admin.index');
-        Route::any('/{slug}', 'AdminController@index')->where('slug', '.*');
+        // Route::any('/{slug}', 'AdminController@index')->where('slug', '.*');
 
+        Route::get('/targets', 'TargetController@index')->name('target.index');
         Route::post('/targets', 'TargetController@store')->name('target.store');
         Route::put('/targets/{id}', 'TargetController@update')->name('target.update');
         Route::delete('/targets/{id}', 'TargetController@destroy')->name('target.destroy');
+
+        Route::get('/targets/{target_id}/spintax', 'SpintaxController@index')->name('spintax.index');
+        Route::post('/targets/{target_id}/spintax', 'SpintaxController@store')->name('spintax.store');
+        Route::put('/targets/{target_id}/spintax/{id}', 'SpintaxController@update')->name('spintax.update');
+        Route::delete('/targets/{target_id}/spintax/{id}', 'SpintaxController@destroy')->name('spintax.destroy');
     });
 });
 

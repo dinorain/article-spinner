@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => ['auth:web']], function () {
 
-    Route::get('/targets/{id}', 'Api\TargetController@detail');
+    Route::group(['prefix' => 'openSesame'], function () {
+        Route::get('/targets/{id}', 'Api\TargetController@detail');
+    });
 
 });

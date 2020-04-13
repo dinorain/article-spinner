@@ -15,12 +15,13 @@
         window.showEditTargetDialog = (id) => async (e) => {
             e.preventDefault();
             try {
-                // const response = (await rootApi.get(`/targets/${id}`)).data;
-                // $id.val(response.id);
-                // $target.val(response.target);
+                const response = (await rootApi.get(`/openSesame/targets/${id}`)).data;
+                $id.val(response.id);
+                $target.val(response.target);
                 $form.attr('action', `/targets/${id}`);
                 $dialog.modal('show');
             } catch (error) {
+                console.log(error);
                 toastr.error("Please try again", "Error");
             }
         }
