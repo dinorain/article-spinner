@@ -20,6 +20,18 @@ class SpintaxInputsTableSeeder extends Seeder
                 'target' => 'kabar',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 2
+            [
+                'target' => 'adalah',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 3
+            [
+                'target' => 'asli',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         foreach ($data as $d) {

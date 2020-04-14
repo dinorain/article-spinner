@@ -42,7 +42,64 @@ class SpintaxOutputsTableSeeder extends Seeder
                 'target_id' => '1',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]
+            ],
+            // 5
+            [
+                'spintax' => 'ialah',
+                'target_id' => '2',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 6
+            [
+                'spintax' => 'merupakan',
+                'target_id' => '2',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 7
+            [
+                'spintax' => 'yaitu',
+                'target_id' => '2',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 8
+            [
+                'spintax' => 'yakni',
+                'target_id' => '2',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 9
+            [
+                'spintax' => 'absah',
+                'target_id' => '3',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 10
+            [
+                'spintax' => 'orisinil',
+                'target_id' => '3',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 11
+            [
+                'spintax' => 'original',
+                'target_id' => '3',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            // 12
+            [
+                'spintax' => 'autentik',
+                'target_id' => '3',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+
         ];
         foreach ($data as $d) {
             $table->insert($d);
