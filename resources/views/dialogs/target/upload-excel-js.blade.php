@@ -10,12 +10,5 @@
             $dialog.modal('show');
         }
 
-        window.showUploadSpintaxCollectionsExcelDialog = (target_id) => (e) => {
-            e.preventDefault();
-            $form.trigger('reset');
-            $form.attr('action', `/openSesame/targets/${target_id}/spintax/synonyms/excel`);
-            $dialog.modal('show');
-        }
-
     }
 </script>

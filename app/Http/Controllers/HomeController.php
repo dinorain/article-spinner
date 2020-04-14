@@ -98,19 +98,6 @@ class HomeController extends Controller
                     }
                     else {
                         $spintaxText = $spintaxText.$trimmed_p;
-
-                        // if (ctype_alpha($trimmed_p)) {
-                        //     $client =  new Client;
-                        //     $res = $client->request('POST','https://www.persamaankata.com/search.php',[
-                        //         'form_params' => [
-                        //             'q' =>  strtolower($trimmed_p)
-                        //         ]
-                        //     ]);
-                        //     dd(json_decode($res->getBody()->getContents(), true));
-                        // }
-                        // else {
-                        //     $spintaxText = $spintaxText.$trimmed_p;
-                        // }
                     }
                 }
                 else
@@ -128,19 +115,6 @@ class HomeController extends Controller
                     }
                     else {
                         $spintaxText = $spintaxText.$trimmed_p;
-
-                        // if (ctype_alpha($trimmed_p)) {
-                        //     $client =  new Client;
-                        //     $res = $client->request('POST','https://www.persamaankata.com/search.php',[
-                        //         'form_params' => [
-                        //             'q' =>  strtolower($trimmed_p)
-                        //         ]
-                        //     ]);
-                        //     dd(json_decode($res->getBody()->getContents(), true));
-                        // }
-                        // else {
-                        //     $spintaxText = $spintaxText.$trimmed_p;
-                        // }
                     }
                 }
             }

@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="uplaodExcelModalLabel">Upload targets</h5>
+                <h5 class="modal-title" id="uplaodExcelModalLabel">Upload synonyms for <strong>"<span id="upload-excel-nickname"></span>"</strong></h5>
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
@@ -10,7 +10,7 @@
             <form
                 id="upload-excel-form"
                 method="POST"
-                action="{{ route('target.excel.upload') }}"
+                action=""
                 enctype="multipart/form-data"
                 data-parsley-validate
             >
@@ -35,7 +35,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <a href="/raws/spintax-targets-template.xlsx" class="btn btn-secondary" download>Download template</a>
+                    <a href="/raws/spintax-target-synonyms-template.xlsx" class="btn btn-secondary" download>Download template</a>
                     <button type="submit" class="btn btn-primary">Upload</a>
                 </div>
             </form>
