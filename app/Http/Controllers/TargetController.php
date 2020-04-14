@@ -8,6 +8,7 @@ use Kamaln7\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Excel;
 
 use App\Model\SpintaxInput;
 use App\Model\SpintaxOutput;
@@ -15,6 +16,25 @@ use App\Model\SpintaxOutput;
 
 class TargetController extends Controller
 {
+    private function cleanAndParseExcel($doc, $targetNamesDict)
+    {
+        $sheet = $doc->getSheet(0);
+        $rows = [];
+        $rowIndex = 2;
+        while (1) {
+            $target = ExcelHelper::cleanText($sheet->getCellByColumnAndRow(0, $rowIndex)->getValue());
+
+            if (!$target) break;
+            else if (array_key_exists($target, $targetNamesDict))
+                return ['isError' => true, 'message' => "Spintax target has existed. (Cell {$rowIndex}A)!"];
+
+
+            array_push($rows, [$target]);
+            $rowIndex++;
+        }
+        return ['isError' => false, 'rows' => $rows];
+    }
+
     public function index()
     {
         $inputs = SpintaxInput::all();
@@ -39,7 +59,6 @@ class TargetController extends Controller
 
     public function store(Request $request)
     {
-
         try {
             DB::beginTransaction();
 
@@ -63,7 +82,6 @@ class TargetController extends Controller
 
     public function update(Request $request, $id)
     {
-
         try {
             DB::beginTransaction();
 
@@ -85,7 +103,6 @@ class TargetController extends Controller
             Toastr::success('Spintax target has been updated', 'Success');
         } catch (\Exception $error) {
             DB::rollBack();
-            dd($error);
             Toastr::error('Something went wrong. Please try again!', 'Error');
         }
         return redirect()->back();
@@ -106,4 +123,67 @@ class TargetController extends Controller
         Toastr::success('Spintax target has been deleted!', 'Success');
         return redirect()->back();
     }
+
+    public function uploadTargetsExcel(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            // request validation
+            $this->validate($request, [
+                'excelFile' => 'required',
+            ]);
+            $excelFile = $request->file('excelFile');
+            $extension = $excelFile->getClientOriginalExtension();
+            $check = in_array($extension, ['xlsx', 'xls'], true);
+
+            if (!$check) {
+                Toastr::error('File extension must be xlsx or xls only', 'Fail');
+                return redirect('/openSesame/targets');
+            } else if ($excelFile->getSize() > 5 * 1000000) {
+                Toastr::error('File size must not exceed 5MB!', 'Fail');
+                return redirect('/openSesame/targets');
+            }
+
+            // construct a random tmp file path
+            $uniqueFileName = uniqid(pathinfo($excelFile->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $extension;
+
+            $doc = Excel::load($excelFile);
+            // delete tmp file
+            unlink($excelFile->getRealPath());
+
+            // fetch targets
+            $spintaxInputs = SpintaxInput::all();
+            $targetNamesDict = [];
+            foreach ($spintaxInputs as $si)
+                $targetNamesDict[$si->target] = true;
+
+            // clean and parse
+            $result = $this->cleanAndParseExcel($doc, $targetNamesDict);
+            if ($result['isError']) {
+                Toastr::error($result['message'], 'Error');
+                return redirect('/openSesame/targets');
+            } else {
+                // create spintax collections
+                $rows = $result['rows'];
+                for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) {
+                    $row = $rows[$rowIndex];
+                    $spintaxInput = new SpintaxInput();
+                    $spintaxInput->target = strtolower($row[0]);
+                    $spintaxInput->save();
+                }
+                $rowsCount = count($rows);
+
+                DB::commit();
+                Toastr::success("Excel file has been successfully uploaded ($rowsCount rows processed).", 'Success');
+                return redirect('/openSesame/targets');
+            }
+        } catch (\Exception $error) {
+            DB::rollBack();
+            if($error->errorInfo[2]) flash('Error. '.$error->errorInfo[2]. 'Please try again!')->error();
+            Toastr::error('Something went wrong. Please try again!', 'Error');
+        }
+        return redirect('/openSesame/targets');
+    }
+
 }

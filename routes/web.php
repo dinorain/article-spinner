@@ -48,10 +48,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('/{id}', 'TargetController@update')->name('target.update');
         Route::delete('/{id}', 'TargetController@destroy')->name('target.destroy');
 
+        Route::post('/names/excel', 'TargetController@uploadTargetsExcel')
+            ->name('target.excel.upload');
+
         Route::get('/{target_id}/spintax', 'SpintaxController@index')->name('spintax.index');
         Route::post('/{target_id}/spintax', 'SpintaxController@store')->name('spintax.store');
         Route::post('/{target_id}/spintax/{id}', 'SpintaxController@update')->name('spintax.update');
         Route::delete('/{target_id}/spintax/{id}', 'SpintaxController@destroy')->name('spintax.destroy');
+
+        Route::post('/{target_id}/spintax/synonyms/excel', 'SpintaxController@uploadSpintaxCollectionsExcel')
+            ->name('spintax.excel.upload');
     });
 });
 

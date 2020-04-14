@@ -34,6 +34,7 @@
                             <br/>
                         </div>
                         <a href="#" class="btn btn-primary mb-3 ml-3 mr-3" onclick="showCreateSpintaxDialog('{{ "$spintaxInput->target" }}').apply(this, arguments)">Add synonym</a>
+                        <a href="#" class="btn btn-secondary mb-3 ml-3 mr-3" onclick="showUploadSpintaxCollectionsExcelDialog({{ $spintaxInput->id }}).apply(this, arguments)">Upload synonyms</a>
                     </div>
                 </div>
                 <!-- ============================================================== -->
@@ -102,12 +103,16 @@
 
     @include('dialogs.spintax.create-edit')
     @include('dialogs.spintax.delete')
+    @include('dialogs.target.upload-excel')
+
 
 @endsection
 
 @section('js')
     @include('dialogs.spintax.create-edit-js')
     @include('dialogs.spintax.delete-js')
+    @include('dialogs.target.upload-excel-js')
+
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/datatables/dataTables.bootstrap4.min.js') }}"></script>

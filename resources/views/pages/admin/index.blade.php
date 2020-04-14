@@ -9,8 +9,11 @@
     <div class="flex-center position-ref full-height">
 
         <div class="content">
+            @include('flash::message')
 
             <a href="#" class="btn btn-primary mb-3" onclick="showCreateTargetDialog.apply(this, arguments)">Add target</a>
+            <a href="#" class="btn btn-secondary mb-3" onclick="showUploadTargetsExcelDialog.apply(this, arguments)">Upload targets</a>
+
             {{-- <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTargetModal">Add a target</a> --}}
             <div class="row">
                 <!-- ============================================================== -->
@@ -36,7 +39,15 @@
                                     <tbody>
                                         @foreach ($inputs as $input)
                                         <tr>
-                                            <td>{{ $input->target }}</td>
+                                            <td>
+                                                {{ $input->target }}
+                                                <a
+                                                    href="#"
+                                                    onclick="showEditTargetDialog({{ $input->id }}).apply(this, arguments)"
+                                                >
+                                                <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                            </td>
                                             <td>{{ '{'.($spintaxTargetIdDict[$input->id] === null ? '' : $spintaxTargetIdDict[$input->id]).'}' }}</td>
                                             <td>{{ Carbon\Carbon::parse($input->created_at)->format('d/m/Y h:m') }}</td>
                                             <td>{{ Carbon\Carbon::parse($input->updated_at)->format('d/m/Y h:m') }}</td>
@@ -46,14 +57,7 @@
                                                         href="{{ route('spintax.index', ['target_id' => $input->id]) }}"
                                                         class="btn btn-sm btn-outline-light"
                                                     >
-                                                        Details
-                                                    </a>
-                                                    <a
-                                                        href="#"
-                                                        class="btn btn-sm btn-outline-light"
-                                                        onclick="showEditTargetDialog({{ $input->id }}).apply(this, arguments)"
-                                                    >
-                                                        Edit
+                                                        See details
                                                     </a>
                                                     <a
                                                         href="#"
@@ -82,11 +86,15 @@
 
     @include('dialogs.target.create-edit')
     @include('dialogs.target.delete')
+    @include('dialogs.target.upload-excel')
+
 @endsection
 
 @section('js')
     @include('dialogs.target.create-edit-js')
     @include('dialogs.target.delete-js')
+    @include('dialogs.target.upload-excel-js')
+
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/datatables/dataTables.bootstrap4.min.js') }}"></script>
