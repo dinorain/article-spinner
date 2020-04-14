@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createEditSpintaxModalLabel">Add spintax for <strong>"<span id="nickname"></span>"</strong></h5>
+                <h5 class="modal-title" id="createEditSpintaxModalLabel">Add synonym for <strong>"<span id="nickname"></span>"</strong></h5>
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
@@ -31,7 +31,7 @@
                     />
 
                     <div class="form-group row">
-                      <label for="spintax" class="col-sm-3 col-form-label">Input spintax</label>
+                      <label for="spintax" class="col-sm-3 col-form-label">Input synonym</label>
                       <div class="col-sm-9">
                         <input
                             id="spintax"

@@ -46,7 +46,7 @@
                                                         href="{{ route('spintax.index', ['target_id' => $input->id]) }}"
                                                         class="btn btn-sm btn-outline-light"
                                                     >
-                                                        view
+                                                        Details
                                                     </a>
                                                     <a
                                                         href="#"

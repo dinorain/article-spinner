@@ -24,7 +24,7 @@
 
                     <div class="form-group row">
                         <div class="col-sm-9">
-                            Delete spintax <strong>"<span id="nickname"></span>"</strong> ?
+                            Delete synonym <strong>"<span id="nickname"></span>"</strong> ?
                         </div>
                     </div>
                 </div>

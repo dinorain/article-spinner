@@ -39,19 +39,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/accounts/password', 'UserController@updatePassword')->name('account.password.update');
 
 
-    Route::group(['prefix' => 'openSesame'], function () {
+    Route::group(['prefix' => 'openSesame/targets'], function () {
         Route::any('/', 'AdminController@index')->name('admin.index');
         // Route::any('/{slug}', 'AdminController@index')->where('slug', '.*');
 
-        Route::get('/targets', 'TargetController@index')->name('target.index');
-        Route::post('/targets', 'TargetController@store')->name('target.store');
-        Route::post('/targets/{id}', 'TargetController@update')->name('target.update');
-        Route::delete('/targets/{id}', 'TargetController@destroy')->name('target.destroy');
+        Route::get('/', 'TargetController@index')->name('target.index');
+        Route::post('/', 'TargetController@store')->name('target.store');
+        Route::post('/{id}', 'TargetController@update')->name('target.update');
+        Route::delete('/{id}', 'TargetController@destroy')->name('target.destroy');
 
-        Route::get('/targets/{target_id}/spintax', 'SpintaxController@index')->name('spintax.index');
-        Route::post('/targets/{target_id}/spintax', 'SpintaxController@store')->name('spintax.store');
-        Route::post('/targets/{target_id}/spintax/{id}', 'SpintaxController@update')->name('spintax.update');
-        Route::delete('/targets/{target_id}/spintax/{id}', 'SpintaxController@destroy')->name('spintax.destroy');
+        Route::get('/{target_id}/spintax', 'SpintaxController@index')->name('spintax.index');
+        Route::post('/{target_id}/spintax', 'SpintaxController@store')->name('spintax.store');
+        Route::post('/{target_id}/spintax/{id}', 'SpintaxController@update')->name('spintax.update');
+        Route::delete('/{target_id}/spintax/{id}', 'SpintaxController@destroy')->name('spintax.destroy');
     });
 });
 

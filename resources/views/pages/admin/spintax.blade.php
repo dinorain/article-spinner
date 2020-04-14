@@ -8,15 +8,42 @@
 @section('content')
     <div class="flex-center position-ref full-height">
 
+        <a href="{{ route('target.index') }}" class="btn btn-primary mb-3">
+            <i class="fas fa-long-arrow-alt-left"></i> Go back
+        </a>
+
         <div class="content">
 
-            <a href="#" class="btn btn-primary mb-3" onclick="showCreateSpintaxDialog('{{ "$spintaxInput->target" }}').apply(this, arguments)">Add spintax</a>
-            {{-- <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTargetModal">Add a target</a> --}}
             <div class="row">
+                <!-- ============================================================== -->
+                <!-- target details  -->
+                <!-- ============================================================== -->
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Target details</h5>
+                        </div>
+                        <div class="card-body">
+                            <strong>Target name: </strong>{{ $spintaxInput->target }}
+                            <br/>
+                            <strong>Number of synonyms: </strong>{{ count($spintaxCollections) }}
+                            <br/>
+                            <strong>Created at: </strong>{{ Carbon\Carbon::parse($spintaxInput->created_at)->format('d/m/Y h:m') }}
+                            <br/>
+                            <strong>Updated at: </strong>{{ Carbon\Carbon::parse($spintaxInput->updated_at)->format('d/m/Y h:m') }}
+                            <br/>
+                        </div>
+                        <a href="#" class="btn btn-primary mb-3 ml-3 mr-3" onclick="showCreateSpintaxDialog('{{ "$spintaxInput->target" }}').apply(this, arguments)">Add synonym</a>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- target details  -->
+                <!-- ============================================================== -->
+
                 <!-- ============================================================== -->
                 <!-- data table  -->
                 <!-- ============================================================== -->
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">Spintax collections of "<strong><a href="{{ route('target.index') }}">{{ $spintaxInput->target }}</a></strong>"</h5>
@@ -26,8 +53,7 @@
                                 <table id="example" class="table table-striped table-bordered second" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Target</th>
-                                            <th>Spintax</th>
+                                            <th>Synonym</th>
                                             <th>Created at</th>
                                             <th>Updated at</th>
                                             <th></th>
@@ -36,7 +62,6 @@
                                     <tbody>
                                         @foreach ($spintaxCollections as $sc)
                                         <tr>
-                                            <td>{{ $spintaxInput->target }}</td>
                                             <td>{{ $sc->spintax }}</td>
                                             <td>{{ Carbon\Carbon::parse($sc->created_at)->format('d/m/Y h:m') }}</td>
                                             <td>{{ Carbon\Carbon::parse($sc->updated_at)->format('d/m/Y h:m') }}</td>
@@ -74,8 +99,10 @@
 
     </div>
 
+
     @include('dialogs.spintax.create-edit')
     @include('dialogs.spintax.delete')
+
 @endsection
 
 @section('js')
