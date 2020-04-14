@@ -18,7 +18,7 @@
                 const response = (await rootApi.get(`/openSesame/targets/${id}`)).data;
                 $id.val(response.id);
                 $target.val(response.target);
-                $form.attr('action', `/targets/${id}`);
+                $form.attr('action', `/openSesame/targets/${id}`);
                 $dialog.modal('show');
             } catch (error) {
                 console.log(error);

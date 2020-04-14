@@ -10,7 +10,7 @@
 
         <div class="content">
 
-            <a href="#" class="btn btn-primary mb-3" onclick="showCreateTargetDialog.apply(this, arguments)">Add a target</a>
+            <a href="#" class="btn btn-primary mb-3" onclick="showCreateTargetDialog.apply(this, arguments)">Add target</a>
             {{-- <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTargetModal">Add a target</a> --}}
             <div class="row">
                 <!-- ============================================================== -->
@@ -42,6 +42,12 @@
                                             <td>{{ Carbon\Carbon::parse($input->updated_at)->format('d/m/Y h:m') }}</td>
                                             <td>
                                                 <div class="btn-group ml-auto">
+                                                    <a
+                                                        href="{{ route('spintax.index', ['target_id' => $input->id]) }}"
+                                                        class="btn btn-sm btn-outline-light"
+                                                    >
+                                                        view
+                                                    </a>
                                                     <a
                                                         href="#"
                                                         class="btn btn-sm btn-outline-light"

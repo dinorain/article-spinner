@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createEditSpintaxModalLabel">Add Spintax</h5>
+                <h5 class="modal-title" id="createEditSpintaxModalLabel">Add spintax for <strong>"<span id="nickname"></span>"</strong></h5>
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
@@ -10,7 +10,7 @@
             <form
                 id="create-edit-spintax-form"
                 method="POST"
-                action="{{ route('spintax.store') }}"
+                action="{{ route('spintax.store', ['target_id' => $spintaxInput->id]) }}"
                 enctype="multipart/form-data"
                 data-parsley-validate
             >

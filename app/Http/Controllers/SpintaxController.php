@@ -34,7 +34,7 @@ class SpintaxController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request, $target_id)
     {
 
         try {
@@ -48,7 +48,7 @@ class SpintaxController extends Controller
 
             $spintaxOutput = new spintaxOutput();
             $spintaxOutput->spintax = $request->spintax;
-            $spintaxOutput->target_id = $request->target_id;
+            $spintaxOutput->target_id = $target_id;
             $spintaxOutput->save();
 
             DB::commit();
@@ -60,7 +60,7 @@ class SpintaxController extends Controller
         return redirect()->back();
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $target_id, $id)
     {
 
         try {
@@ -78,7 +78,7 @@ class SpintaxController extends Controller
             }
 
             $spintaxOutput->spintax = $request->spintax;
-            $spintaxOutput->target_id = $request->target_id;
+            $spintaxOutput->target_id = $target_id;
             $spintaxOutput->save();
 
             DB::commit();
@@ -91,7 +91,7 @@ class SpintaxController extends Controller
         return redirect()->back();
     }
 
-    public function destroy($id)
+    public function destroy($target_id, $id)
     {
         $spintaxOutput = spintaxOutput::find($id);
         if (!$spintaxOutput) {

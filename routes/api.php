@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth:web']], function () {
 
     Route::group(['prefix' => 'openSesame'], function () {
         Route::get('/targets/{id}', 'Api\TargetController@detail');
+        Route::get('/targets/{target_id}/spintax/{id}', 'Api\SpintaxController@detail');
     });
 
 });

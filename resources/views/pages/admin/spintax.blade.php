@@ -10,7 +10,7 @@
 
         <div class="content">
 
-            <a href="#" class="btn btn-primary mb-3" onclick="showCreateTargetDialog.apply(this, arguments)">Add a target</a>
+            <a href="#" class="btn btn-primary mb-3" onclick="showCreateSpintaxDialog('{{ "$spintaxInput->target" }}').apply(this, arguments)">Add spintax</a>
             {{-- <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addTargetModal">Add a target</a> --}}
             <div class="row">
                 <!-- ============================================================== -->
@@ -19,7 +19,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="mb-0"><a href="{{ route('target.index') }}">{{ $spintaxInput->target }}</a>Spintax Collections</h5>
+                            <h5 class="mb-0">Spintax collections of "<strong><a href="{{ route('target.index') }}">{{ $spintaxInput->target }}</a></strong>"</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -27,7 +27,7 @@
                                     <thead>
                                         <tr>
                                             <th>Target</th>
-                                            <th>Spintax 2</th>
+                                            <th>Spintax</th>
                                             <th>Created at</th>
                                             <th>Updated at</th>
                                             <th></th>
@@ -45,7 +45,7 @@
                                                     <a
                                                         href="#"
                                                         class="btn btn-sm btn-outline-light"
-                                                        onclick="showEditSpintaxDialog({{ $sc->id }}).apply(this, arguments)"
+                                                        onclick="showEditSpintaxDialog({{ $sc->id }}, '{{ "$spintaxInput->target" }}').apply(this, arguments)"
                                                     >
                                                         Edit
                                                     </a>

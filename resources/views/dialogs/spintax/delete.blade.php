@@ -14,6 +14,12 @@
             >
                 @csrf
                 @method('DELETE')
+                <input
+                    id="target_id"
+                    name="target_id"
+                    type="hidden"
+                    value="{{ $spintaxInput->id }}"
+                />
                 <div class="modal-body">
 
                     <div class="form-group row">
