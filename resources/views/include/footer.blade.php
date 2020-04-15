@@ -1,13 +1,13 @@
 <div class="footer">
     <div class="container-fluid">
-        <a class="footer-brand" href="renter-index.html">SPINTAX</a>
+        {{-- <a class="footer-brand" href="/">SPINTAX</a> --}}
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                 Copyright © 2020
                 <a href="mailto:djourdan555@gmail.com?Subject=Hello,%20Dustin">Dustin J</a>.
                 All rights reserved.
                 @if (Auth::check())
-                    Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                    {{-- Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>. --}}
                 @endif
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">

@@ -65,13 +65,13 @@
                                                 <div class="btn-group ml-auto">
                                                     <a
                                                         href="{{ route('spintax.index', ['target_id' => $input->id]) }}"
-                                                        class="btn btn-sm btn-outline-light"
+                                                        class="btn btn-sm"
                                                     >
                                                         See details
                                                     </a>
                                                     <a
                                                         href="#"
-                                                        class="btn btn-sm btn-outline-light"
+                                                        class="btn btn-sm"
                                                         onclick="showDeleteTargetDialog({{ $input->id }}, '{{ "$input->target" }}').apply(this, arguments)"
                                                     >
                                                         <i class="far fa-trash-alt"></i>

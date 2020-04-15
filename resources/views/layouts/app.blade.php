@@ -28,7 +28,7 @@
             <!-- left sidebar -->
             <!-- ============================================================== -->
             @if (Auth::check())
-                @include('include.left-sidebar')
+                {{-- @include('include.left-sidebar') --}}
             @endif
             <!-- ============================================================== -->
             <!-- end sidebar -->
@@ -39,7 +39,7 @@
             <!-- wrapper  -->
             <!-- ============================================================== -->
             <div class="dashboard-wrapper">
-                <div class="container-fluid dashboard-content">
+                <div class="container-fluid dashboard-content pt-5">
                     <!-- ============================================================== -->
                     <!-- content  -->
                     <!-- ============================================================== -->
