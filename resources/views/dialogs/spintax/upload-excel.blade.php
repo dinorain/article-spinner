@@ -30,7 +30,7 @@
                                 data-parsley-required
                             >
                         </div>
-                        <small class="ml-3 mt-3">Your file size must not exceed 5MB.</small>
+                        {{-- <small class="ml-3 mt-3">Your file size must not exceed 5MB.</small> --}}
                     </div>
 
                 </div>

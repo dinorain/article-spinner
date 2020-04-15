@@ -18,7 +18,7 @@
 
                     <div class="form-group row">
                         <div class="col-sm-9">
-                            Delete target <strong>"<span id="nickname"></span>"</strong> ?
+                            Delete target <strong>"<span id="nickname"></span>"</strong> and all its synonyms?
                         </div>
                     </div>
                 </div>

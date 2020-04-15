@@ -34,6 +34,7 @@
                             class="form-control"
                             value=""
                             data-parsley-required
+                            autofocus
                         />
                       </div>
                     </div>

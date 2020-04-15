@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return redirect()->route('welcome');
     }
 
     public function process_spin($text)
@@ -77,7 +77,7 @@ class HomeController extends Controller
                     $spintaxTargetIdDict[$sc->target_id].$sc->spintax : $spintaxTargetIdDict[$sc->target_id].'|'.$sc->spintax;
 
 
-        $parts = preg_split('/(?<=\s)|(?<=\w)(?=[.,:;!?()-])|(?<=[.,!()?\x{201C}])(?=[^ ])/u', $text);
+        $parts = preg_split('/(?<=\s)|(?<=\w)(?=[.,:;!?()])|(?<=[.,!()?\x{201C}])(?=[^ ])/u', $text);
         $spintaxText = '';
 
         foreach ($parts as $p) {

@@ -3,6 +3,16 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables/dataTables.bootstrap4.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables/buttons.bootstrap4.css') }}">
+    <style>
+
+        table {
+            table-layout: fixed !important;
+        }
+
+        td {
+            word-wrap: break-word !important;
+        }
+    </style>
 @endsection
 
 @section('content')

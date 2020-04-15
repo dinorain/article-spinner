@@ -26,18 +26,20 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('/logout', 'Auth\LoginController@logout');
 
-    /**
-     * Edit account personal information
-     */
-    Route::get('/accounts/personal', 'UserController@editPersonal')->name('account.personal.edit');
-    Route::post('/accounts/personal', 'UserController@updatePersonal')->name('account.personal.update');
 
-    /**
-     * Edit account password
-     */
-    Route::get('/accounts/password', 'UserController@editPassword')->name('account.password.edit');
-    Route::post('/accounts/password', 'UserController@updatePassword')->name('account.password.update');
+    Route::group(['prefix' => 'openSesame'], function () {
+        /**
+         * Edit account personal information
+         */
+        Route::get('/accounts/personal', 'UserController@editPersonal')->name('account.personal.edit');
+        Route::post('/accounts/personal', 'UserController@updatePersonal')->name('account.personal.update');
 
+        /**
+         * Edit account password
+         */
+        Route::get('/accounts/password', 'UserController@editPassword')->name('account.password.edit');
+        Route::post('/accounts/password', 'UserController@updatePassword')->name('account.password.update');
+    });
 
     Route::group(['prefix' => 'openSesame/targets'], function () {
         Route::any('/', 'AdminController@index')->name('admin.index');

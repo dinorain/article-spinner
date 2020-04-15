@@ -27,7 +27,10 @@
                         <div id="profile" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 {{-- <li class="nav-item">
-                                    <a class="nav-link" href="#">Settings</a>
+                                    <a class="nav-link" href="{{ route('account.personal.edit') }}">Edit Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('account.password.edit') }}">Change Password</a>
                                 </li> --}}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('logout') }}">Logout</a>
