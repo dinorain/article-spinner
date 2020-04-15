@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Kamaln7\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
 use Excel;
 
 use App\Model\SpintaxInput;
@@ -29,7 +27,7 @@ class SpintaxController extends Controller
             else if ($synonym == $target)
                 return ['isError' => true, 'message' => "Synonym cannot be as same as its target! (Cell {$rowIndex}A)"];
             else if (array_key_exists($synonym, $targetSynonymsDict))
-                return ['isError' => true, 'message' => "Synonym has existed! (Cell {$rowIndex}A)"];
+                return ['isError' => true, 'message' => "Synonym '$synonym' has existed! (Cell {$rowIndex}A)"];
 
             array_push($rows, [$synonym]);
             $rowIndex++;
@@ -112,7 +110,8 @@ class SpintaxController extends Controller
 
                 // request validation
                 $this->validate($request, [
-                    'target' => 'required',
+                    'target_id' => 'required',
+                    'spintax' => 'required'
                 ]);
 
                 $spintaxTarget = SpintaxInput::find($target_id);
@@ -121,15 +120,15 @@ class SpintaxController extends Controller
                     return redirect()->back();
                 }
 
-                $spintaxOutput = SpintaxOutput::find($id);
-                if (!$spintaxOutput) {
-                    Toastr::error('Synonym doesn\'t exist!', 'Error');
-                    return redirect()->back();
-                }
-
                 $spintaxOutput = SpintaxOutput::where('spintax', $request->spintax)->where('target_id', $target_id)->first();
                 if ($spintaxOutput) {
                     Toastr::error('Synonym has existed!', 'Error');
+                    return redirect()->back();
+                }
+
+                $spintaxOutput = SpintaxOutput::find($id);
+                if (!$spintaxOutput) {
+                    Toastr::error('Synonym doesn\'t exist!', 'Error');
                     return redirect()->back();
                 }
 
@@ -212,7 +211,8 @@ class SpintaxController extends Controller
                 // clean and parse
                 $result = $this->cleanAndParseExcel($doc, $target, $targetSynonymsDict);
                 if ($result['isError']) {
-                    Toastr::error($result['message'], 'Error');
+                    flash('Error. '.$result['message'])->error();
+                    // Toastr::error($result['message'], 'Error');
                     return redirect('/openSesame/targets/'.$id.'/spintax');
                 } else {
                     // create spintax collections

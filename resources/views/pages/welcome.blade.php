@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('css')
+    <style>
+        textarea { width: 100%; }
+    </style>
+@endsection
+
+
 @section('content')
 <div class="flex-center position-ref full-height">
 
@@ -12,12 +19,12 @@
             <!-- input text form  -->
             <!-- ============================================================== -->
 
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <form
                         id="spinner-input-form"
                         method="POST"
-                        action="{{ route('home.spin') }}"
+                        action="{{ route('home.spin', ['mode' => 'spin']) }}"
                         enctype="multipart/form-data"
                         data-parsley-validate
                     >
@@ -33,10 +40,10 @@
                                         value="{{ $input ? $input : '' }}"
                                     />
                                     <input
-                                        id="output"
-                                        name="output"
+                                        id="output2"
+                                        name="output2"
                                         type="hidden"
-                                        value="{{ $output ? $output : '' }}"
+                                        value="{{ $output2 ? $output2 : '' }}"
                                     />
 
                                     <label for="spinner_input_textarea">Enter your text</label>
@@ -45,6 +52,7 @@
                                         id="spinner_input_textarea"
                                         name="spinner_input"
                                         rows="3"
+                                        max-rows="20"
                                         data-parsley-required
                                     ></textarea>
 
@@ -53,15 +61,14 @@
                                         Spin: Spintax -> spin result text.
                                     </p>
 
+                                    <div>
+                                        <button type="submit" class="btn btn-primary" name="spin" value="spintax1">Spintax 1</button>
+                                        <button type="submit" class="btn btn-primary" name="spin" value="spintax2">Spintax 2</button>
+                                        <button type="submit" class="btn btn-primary" name="spin" value="spin">Spin Input</button>
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <button type="submit" class="btn btn-primary" name="spin" value="spintax1">Spintax 1</button>
-                            <button type="submit" class="btn btn-primary" name="spin" value="spintax2">Spintax 2</button>
-                            <button type="submit" class="btn btn-primary" name="spin" value="spin">Spin</button>
-                            <button type="button" class="btn btn-primary" id="output_reset">Reset result</button>
                         </div>
                     </form>
                 </div>
@@ -80,15 +87,27 @@
                         <div class="card-body">
                             <form
                                 id="spinner-output-form"
+                                method="POST"
                                 enctype="multipart/form-data"
+                                action="{{ route('home.spin', ['mode' => 'spin2']) }}"
+                                data-parsley-validate
                             >
+                                @csrf
                                 <div class="form-group">
                                     <label for="spinner_result_textarea">Result</label>
                                     <textarea
                                         class="form-control"
                                         id="spinner_result_textarea"
+                                        name="spinner_output"
                                         rows="3"
+                                        max-rows="20"
+                                        data-parsley-required
                                     ></textarea>
+                                </div>
+
+                                <div>
+                                    <button type="submit" class="btn btn-primary" name="spin" value="spin">Spin Output</button>
+                                    <button type="button" class="btn btn-primary" id="output_reset">Reset Output</button>
                                 </div>
                             </form>
                         </div>
@@ -106,7 +125,21 @@
 @section('js')
     <script>
         $('#spinner_input_textarea').val($('#input').val());
-        $('#spinner_result_textarea').val($('#output').val());
+        $('#spinner_result_textarea').val($('#output2').val());
+
+        var os = {!! json_encode($output, JSON_HEX_TAG) !!};
+        var os2 = {!! json_encode($output2, JSON_HEX_TAG) !!};
+
+        if (Array.isArray(os) == true && Array.isArray(os2) == false)
+        {
+            for (var o of os) {
+                var temp = $('#spinner_result_textarea').val();
+                if (o == '')
+                    $('#spinner_result_textarea').val(temp + "\n");
+                else
+                    $('#spinner_result_textarea').val(temp + o + "\n");
+            }
+        }
 
         $("#output_reset").click(function() {
             $('#spinner_result_textarea').val('');

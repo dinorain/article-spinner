@@ -24,7 +24,7 @@ class TargetController extends Controller
 
             if (!$target) break;
             else if (array_key_exists($target, $targetNamesDict))
-                return ['isError' => true, 'message' => "Spintax target has existed. (Cell {$rowIndex}A)!"];
+                return ['isError' => true, 'message' => "Spintax target '$target' has existed. (Cell {$rowIndex}A)!"];
 
             array_push($rows, [$target]);
             $rowIndex++;
@@ -104,15 +104,15 @@ class TargetController extends Controller
                     'target' => 'required',
                 ]);
 
-                $spintaxInput = SpintaxInput::find($id);
-                if (!$spintaxInput) {
-                    Toastr::error('Spintax target doesn\'t exist!', 'Error');
-                    return redirect()->back();
-                }
-
                 $spintaxInput = SpintaxInput::where('target', $request->target)->where('id', '!=', $id)->first();
                 if ($spintaxInput) {
                     Toastr::error('Spintax target has existed!', 'Error');
+                    return redirect()->back();
+                }
+
+                $spintaxInput = SpintaxInput::find($id);
+                if (!$spintaxInput) {
+                    Toastr::error('Spintax target doesn\'t exist!', 'Error');
                     return redirect()->back();
                 }
 
@@ -195,7 +195,8 @@ class TargetController extends Controller
                 // clean and parse
                 $result = $this->cleanAndParseExcel($doc, $targetNamesDict);
                 if ($result['isError']) {
-                    Toastr::error($result['message'], 'Error');
+                    flash('Error. '.$result['message'])->error();
+                    // Toastr::error($result['message'], 'Error');
                     return redirect('/openSesame/targets');
                 } else {
                     // create spintax targets

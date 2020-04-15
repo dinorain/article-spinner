@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => ['auth:web']], function () {
 
+
     Route::group(['prefix' => 'openSesame/targets'], function () {
         Route::get('/{id}', 'Api\TargetController@detail');
         Route::get('/{target_id}/spintax/{id}', 'Api\SpintaxController@detail');
