@@ -53,6 +53,7 @@
                                             type="password"
                                             class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                             name="password"
+                                            data-parsley-minlength="6"
                                             data-parsley-required
                                         />
                                         @if ($errors->has('password'))
@@ -71,6 +72,7 @@
                                             type="password"
                                             class="form-control"
                                             name="password_confirmation"
+                                            data-parsley-minlength="6"
                                             data-parsley-required
                                         />
                                         @if ($errors->has('password'))

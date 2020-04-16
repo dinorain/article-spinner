@@ -15,20 +15,20 @@
             <div class="section-block">
                 <h3 class="section-title">Article Spinner Tool</h3>
             </div>
+            <form
+                id="spinner-form"
+                method="POST"
+                action="{{ route('home.spin') }}"
+                enctype="multipart/form-data"
+                data-parsley-validate
+            >
+            @csrf
             <!-- ============================================================== -->
             <!-- input text form  -->
             <!-- ============================================================== -->
 
-            <div class="row mb-4">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <form
-                        id="spinner-input-form"
-                        method="POST"
-                        action="{{ route('home.spin', ['mode' => 'spin']) }}"
-                        enctype="multipart/form-data"
-                        data-parsley-validate
-                    >
-                        @csrf
+                <div class="row mb-4">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
                             <h5 class="card-header">Input Text</h5>
                             <div class="card-body">
@@ -70,29 +70,20 @@
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- end input text form  -->
-            <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- end input text form  -->
+                <!-- ============================================================== -->
 
-            <!-- ============================================================== -->
-            <!-- output text form  -->
-            <!-- ============================================================== -->
-            <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="card">
-                        <h5 class="card-header">Output Text</h5>
-                        <div class="card-body">
-                            <form
-                                id="spinner-output-form"
-                                method="POST"
-                                enctype="multipart/form-data"
-                                action="{{ route('home.spin', ['mode' => 'spin2']) }}"
-                                data-parsley-validate
-                            >
-                                @csrf
+                <!-- ============================================================== -->
+                <!-- output text form  -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <h5 class="card-header">Output Text</h5>
+                            <div class="card-body">
                                 <div class="form-group">
                                     <label for="spinner_result_textarea">Result</label>
                                     <textarea
@@ -101,23 +92,21 @@
                                         name="spinner_output"
                                         rows="3"
                                         max-rows="20"
-                                        data-parsley-required
                                     ></textarea>
                                 </div>
 
                                 <div>
-                                    <button type="submit" class="btn btn-primary" name="spin" value="spin">Spin Output</button>
+                                    <button type="submit" class="btn btn-primary" name="spin" value="spin2">Spin Output</button>
                                     <button type="button" class="btn btn-primary" id="output_reset">Reset Output</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- end output text form  -->
-            <!-- ============================================================== -->
-        </div>
+                <!-- ============================================================== -->
+                <!-- end output text form  -->
+                <!-- ============================================================== -->
+            </form>
         </div>
     </div>
 @endsection
@@ -141,9 +130,9 @@
             }
         }
 
+        var form = $("#spinner-output-form");
         $("#output_reset").click(function() {
             $('#spinner_result_textarea').val('');
-            var form = $("#spinner-output-form");
             form.trigger("reset");
         });
     </script>

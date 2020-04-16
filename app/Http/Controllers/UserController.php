@@ -44,6 +44,7 @@ class UserController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'username' => 'required',
+                'email' => 'required|email'
             ]);
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -51,6 +52,7 @@ class UserController extends Controller
 
             $user = Auth::user();
             $user->username = $request->username;
+            $user->email = $request->email;
 
             if ($user->save()) {
                 DB::commit();

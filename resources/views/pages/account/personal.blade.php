@@ -48,6 +48,24 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-3 col-form-label">E-mail address</label>
+                                    <div class="col-sm-9">
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                            name="email"
+                                            value="{{ $user->email }}"
+                                        />
+                                        @if ($errors->has('email'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                    </div>
+                                </div>
+
                                 <div class="form-group pt-1">
                                     <button type="submit" class="btn btn-primary">Submit</a>
                                 </div>

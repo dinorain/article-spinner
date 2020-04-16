@@ -67,60 +67,65 @@ class HomeController extends Controller
 
     public function process_spintax($text, $type)
     {
+        $spintaxInputs = SpintaxInput::all();
         $spintaxCollections = SpintaxOutput::orderBy('spintax', 'ASC')->get();
         $spintaxTargetIdDict = [];
-        foreach ($spintaxCollections as $sc) $spintaxTargetIdDict[$sc->target_id] = '';
+        foreach ($spintaxInputs as $si)
+            $spintaxTargetIdDict[$si->id] = '';
+
         foreach ($spintaxCollections as $sc)
             $spintaxTargetIdDict[$sc->target_id] =
                 $spintaxTargetIdDict[$sc->target_id] === '' ?
                     $spintaxTargetIdDict[$sc->target_id].$sc->spintax : $spintaxTargetIdDict[$sc->target_id].'|'.$sc->spintax;
 
         $lines = preg_split("/(\r\n|\n|\r)/",$text);
-        // $lines = array_diff($lines, array(''));
         $spintaxOuputs = [];
 
         foreach($lines as $line) {
             $spintaxText = '';
+            if($line != '')
+            {
+                $parts = preg_split('/(?<=\s)|(?<=\w)(?=[.,:;!?()])|(?<=[.,!()?\x{201C}])(?=[^ ])/u', $line);
 
-            $parts = preg_split('/(?<=\s)|(?<=\w)(?=[.,:;!?()])|(?<=[.,!()?\x{201C}])(?=[^ ])/u', $line);
-
-            foreach ($parts as $p) {
-                $trimmed_p = trim($p);
-                $t = SpintaxInput::where('target', $trimmed_p)->first();
-                if (strlen($trimmed_p) == 1 || (strlen($trimmed_p) > 1 && !$this->is_part_upper(substr($trimmed_p,1)))) {
-                    if ($this->starts_with_upper($trimmed_p)) {
-                        if ($t != null) {
-                            if ($type === 'spintax1') {
-                                $spintaxText = $this->spintax($spintaxText, $trimmed_p, ucwords($spintaxTargetIdDict[$t->id], "|"));
+                foreach ($parts as $p) {
+                    $trimmed_p = trim($p);
+                    $t = SpintaxInput::where('target', strtolower($trimmed_p))->first();
+                    if (strlen($trimmed_p) == 1 || (strlen($trimmed_p) > 1 && !$this->is_part_upper(substr($trimmed_p,1))))
+                    {
+                        if ($this->starts_with_upper($trimmed_p)) {
+                            if ($t != null) {
+                                if ($type === 'spintax1') {
+                                    $spintaxText = $this->spintax($spintaxText, $trimmed_p, ucwords($spintaxTargetIdDict[$t->id], "|"));
+                                }
+                                else if ($type === 'spintax2') {
+                                    $spintaxText = $this->spintax($spintaxText, '', ucwords($spintaxTargetIdDict[$t->id], "|"));
+                                }
                             }
-                            else if ($type === 'spintax2') {
-                                $spintaxText = $this->spintax($spintaxText, '', ucwords($spintaxTargetIdDict[$t->id], "|"));
+                            else {
+                                $spintaxText = $spintaxText.$trimmed_p;
                             }
                         }
-                        else {
-                            $spintaxText = $spintaxText.$trimmed_p;
+                        else
+                        {
+                            if ($t != null) {
+                                if ($type === 'spintax1') {
+                                    $spintaxText = $this->spintax($spintaxText, strtolower($trimmed_p), $spintaxTargetIdDict[$t->id]);
+                                }
+                                else if ($type === 'spintax2') {
+                                    $spintaxText = $this->spintax($spintaxText, '', $spintaxTargetIdDict[$t->id]);
+                                }
+                            }
+                            else {
+                                $spintaxText = $spintaxText.$trimmed_p;
+                            }
                         }
                     }
                     else
-                    {
-                        if ($t != null) {
-                            if ($type === 'spintax1') {
-                                $spintaxText =$this->spintax($spintaxText, strtolower($trimmed_p), $spintaxTargetIdDict[$t->id]);
-                            }
-                            else if ($type === 'spintax2') {
-                                $spintaxText = $this->spintax($spintaxText, '', $spintaxTargetIdDict[$t->id]);
-                            }
-                        }
-                        else {
-                            $spintaxText = $spintaxText.$trimmed_p;
-                        }
-                    }
-                }
-                else
-                    $spintaxText = $spintaxText.$trimmed_p;
+                        $spintaxText = $spintaxText.$trimmed_p;
 
-                if (strpos($p, ' '))
-                    $spintaxText = $spintaxText.' ';
+                    if (strpos($p, ' '))
+                        $spintaxText = $spintaxText.' ';
+                }
             }
             array_push($spintaxOuputs, $spintaxText);
         }
@@ -129,39 +134,30 @@ class HomeController extends Controller
 
     public function spin(Request $request)
     {
-        $_mode = Input::get("mode");
-        if (!in_array($_mode, ['spin', 'spin2'])) {
-            return redirect()->route('home.spin', ['mode' => 'spin']);
+        $output = null;
+        if ($request->spin === 'spin') {
+            $output = $this->process_spin($request->spinner_input);
+            $data = [
+                'input' => $request->spinner_input,
+                'output2' => $output,
+                'output' => null
+            ];
         }
-
-        if ($_mode === "spin") {
-            $output = null;
-            if ($request->spin === 'spin') {
-                $output = $this->process_spin($request->spinner_input);
-                $data = [
-                    'input' => $request->spinner_input,
-                    'output2' => $output,
-                    'output' => null
-                ];
-            }
-            else if ($request->spin === 'spintax1' || $request->spin === 'spintax2') {
-                $output = $this->process_spintax($request->spinner_input, $request->spin);
-                $data = [
-                    'input' => $request->spinner_input,
-                    'output2' => null,
-                    'output' => $output
-                ];
-            }
-        } else if ($_mode === "spin2") {
-            $output = null;
-            if ($request->spin === 'spin') {
-                $output = $this->process_spin($request->spinner_output);
-            }
+        else if ($request->spin === 'spin2') {
+            $output = $this->process_spin($request->spinner_output);
 
             $data = [
                 'input' => $request->spinner_output,
                 'output2' => $output,
                 'output' => null
+            ];
+        }
+        else if ($request->spin === 'spintax1' || $request->spin === 'spintax2') {
+            $output = $this->process_spintax($request->spinner_input, $request->spin);
+            $data = [
+                'input' => $request->spinner_input,
+                'output2' => null,
+                'output' => $output
             ];
         }
 
@@ -170,7 +166,6 @@ class HomeController extends Controller
 
     public function welcome()
     {
-
         $data = [
             'input' => null,
             'output' => null,
