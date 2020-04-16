@@ -23,6 +23,8 @@ class TargetController extends Controller
             $target = strtolower(ExcelHelper::cleanText($sheet->getCellByColumnAndRow(0, $rowIndex)->getValue()));
 
             if (!$target) break;
+            else if (preg_match('/\s/',$target))
+                return ['isError' => true, 'message' => "Spintax target cannot consist of more than one word! '$target' (Cell {$rowIndex}A)!"];
             else if (array_key_exists($target, $targetNamesDict))
                 return ['isError' => true, 'message' => "Spintax target '$target' has existed. (Cell {$rowIndex}A)!"];
 
@@ -70,6 +72,11 @@ class TargetController extends Controller
                     'target' => 'required'
                 ]);
 
+                if (preg_match('/\s/',$request->target)) {
+                    Toastr::error('Spintax target cannot consist of more than one word!', 'Error');
+                    return redirect()->back();
+                }
+
                 $spintaxInput = SpintaxInput::where('target', $request->target)->first();
                 if ($spintaxInput) {
                     Toastr::error('Spintax target has existed!', 'Error');
@@ -86,7 +93,8 @@ class TargetController extends Controller
                 DB::rollBack();
                 Toastr::error('Something went wrong. Please try again!', 'Error');
             }
-            return redirect()->back();
+            $spintaxInput = SpintaxInput::where('target', $request->target)->first();
+            return redirect()->route('spintax.index', ['target_id' => $spintaxInput->id]);
         }
         else {
             return response()->json(['error' => 'Not authorized'], 404);
@@ -103,6 +111,11 @@ class TargetController extends Controller
                 $this->validate($request, [
                     'target' => 'required',
                 ]);
+
+                if (preg_match('/\s/',$request->target)) {
+                    Toastr::error('Spintax target cannot consist of more than one word!', 'Error');
+                    return redirect()->back();
+                }
 
                 $spintaxInput = SpintaxInput::where('target', $request->target)->where('id', '!=', $id)->first();
                 if ($spintaxInput) {

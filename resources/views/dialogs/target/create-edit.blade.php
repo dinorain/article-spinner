@@ -39,6 +39,10 @@
                       </div>
                     </div>
 
+                    <div class="col col-lg-12 col-md-12 col-sm-12 col-12 mb-4">
+                        <span id="error_occured" class="parsley-errors-list">Spintax target cannot consist of more than one word!</span>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>

@@ -83,10 +83,9 @@ class HomeController extends Controller
 
         foreach($lines as $line) {
             $spintaxText = '';
-            if($line != '')
+            if ($line != '')
             {
                 $parts = preg_split('/(?<=\s)|(?<=\w)(?=[.,:;!?()])|(?<=[.,!()?\x{201C}])(?=[^ ])/u', $line);
-
                 foreach ($parts as $p) {
                     $trimmed_p = trim($p);
                     $t = SpintaxInput::where('target', strtolower($trimmed_p))->first();
@@ -95,7 +94,10 @@ class HomeController extends Controller
                         if ($this->starts_with_upper($trimmed_p)) {
                             if ($t != null) {
                                 if ($type === 'spintax1') {
-                                    $spintaxText = $this->spintax($spintaxText, $trimmed_p, ucwords($spintaxTargetIdDict[$t->id], "|"));
+                                    if ($spintaxTargetIdDict[$t->id] !== '')
+                                        $spintaxText = $this->spintax($spintaxText, $trimmed_p, ucwords($spintaxTargetIdDict[$t->id], "|"));
+                                    else
+                                        $spintaxText = $spintaxText.$trimmed_p;
                                 }
                                 else if ($type === 'spintax2') {
                                     $spintaxText = $this->spintax($spintaxText, '', ucwords($spintaxTargetIdDict[$t->id], "|"));
@@ -109,7 +111,10 @@ class HomeController extends Controller
                         {
                             if ($t != null) {
                                 if ($type === 'spintax1') {
-                                    $spintaxText = $this->spintax($spintaxText, strtolower($trimmed_p), $spintaxTargetIdDict[$t->id]);
+                                    if ($spintaxTargetIdDict[$t->id] !== '')
+                                        $spintaxText = $this->spintax($spintaxText, strtolower($trimmed_p), $spintaxTargetIdDict[$t->id]);
+                                    else
+                                        $spintaxText = $spintaxText.strtolower($trimmed_p);
                                 }
                                 else if ($type === 'spintax2') {
                                     $spintaxText = $this->spintax($spintaxText, '', $spintaxTargetIdDict[$t->id]);
