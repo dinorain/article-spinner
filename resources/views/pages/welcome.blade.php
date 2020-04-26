@@ -53,6 +53,7 @@
                                         name="spinner_input"
                                         rows="3"
                                         max-rows="20"
+                                        placeholder="e.g. Berbagai inovasi artikel"
                                         data-parsley-required
                                     ></textarea>
 

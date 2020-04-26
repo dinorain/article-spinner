@@ -1,16 +1,16 @@
 <div class="footer">
     <div class="container-fluid">
-        {{-- <a class="footer-brand" href="/">SPINTAX</a> --}}
+        <a class="footer-brand" href="/">{{ config('app.name', 'ARCSPIN') }}</a>
         <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                Copyright © 2020
-                <a href="mailto:djourdan555@gmail.com?Subject=Hello,%20Dustin">Dustin J</a>.
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                Copyright © {{ Carbon\Carbon::now()->format('Y') }}
+                <a href="mailto:djourdan555@gmail.com?Subject=Hello,%20Dustin">Dustin Jourdan</a>.
                 All rights reserved.
                 @if (Auth::check())
                     {{-- Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>. --}}
                 @endif
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <div class="text-md-right footer-links d-none d-sm-block">
                     <a href="mailto:djourdan555@gmail.com?Subject=Hello,%20Dustin">Contact Developer</a>
                 </div>

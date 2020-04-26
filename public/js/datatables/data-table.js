@@ -15,7 +15,7 @@ jQuery(document).ready(function($) {
         $(document).ready(function() {
             var table = $('table.second').DataTable({
                 lengthChange: false,
-                // buttons: ['excel', 'pdf', 'print']
+                buttons: ['excel', 'pdf', 'print']
             });
 
             table.buttons().container()

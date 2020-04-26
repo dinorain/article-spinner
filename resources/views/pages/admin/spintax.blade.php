@@ -80,14 +80,14 @@
                                                 <div class="btn-group ml-auto">
                                                     <a
                                                         href="#"
-                                                        class="btn btn-sm"
+                                                        class="btn btn-sm btn-outline-light"
                                                         onclick="showEditSpintaxDialog({{ $sc->id }}, '{{ "$spintaxInput->target" }}').apply(this, arguments)"
                                                     >
                                                         Edit
                                                     </a>
                                                     <a
                                                         href="#"
-                                                        class="btn btn-sm"
+                                                        class="btn btn-sm btn-outline-light"
                                                         onclick="showDeleteSpintaxDialog({{ $sc->id }}, '{{ "$sc->spintax" }}').apply(this, arguments)"
                                                     >
                                                         <i class="far fa-trash-alt"></i>

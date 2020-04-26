@@ -26,12 +26,12 @@
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#profile" aria-controls="submenu-2"><i class="fa fa-fw fa-user-circle"></i>Account</a>
                         <div id="profile" class="collapse submenu" style="">
                             <ul class="nav flex-column">
-                                {{-- <li class="nav-item">
+                                <li class="nav-item">
                                     <a class="nav-link" href="{{ route('account.personal.edit') }}">Edit Profile</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('account.password.edit') }}">Change Password</a>
-                                </li> --}}
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('logout') }}">Logout</a>
                                 </li>

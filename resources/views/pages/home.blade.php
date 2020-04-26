@@ -5,7 +5,7 @@
         <div class="content">
             <div class="jumbotron text-center">
                 <div class="title m-b-md">
-                    {{$title}}
+                    {{ $title }}
                 </div>
                 <p>
                     <a class="btn btn-primary btn-lg" href="/login" roles="button">Login<a>
