@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "dinorain/laravel-arcspin",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Your customized article spinnner.",
     "keywords": [
         "framework",
         "laravel"

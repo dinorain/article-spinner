@@ -1063,6 +1063,6 @@ class SpintaxOutputsTableSeeder extends Seeder
             $table->insert($d);
         }
 
-        $this->command->info('Spintax outputss created!');
+        $this->command->info('Spintax outputs created!');
     }
 }

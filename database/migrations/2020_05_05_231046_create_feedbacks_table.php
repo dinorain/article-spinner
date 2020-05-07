@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSpintaxInputsTable extends Migration
+class CreateFeedbacksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateSpintaxInputsTable extends Migration
      */
     public function up()
     {
-        Schema::create('spintax_inputs', function (Blueprint $table) {
+        Schema::create('feedbacks', function (Blueprint $table) {
             $table->softDeletes();
             $table->timestamps();
 
             $table->increments('id');
-            $table->string('target')->unique();
+            $table->string('name')->index();
+            $table->string('email')->index();
+            $table->string('message');
+            $table->boolean('subscribed')->default(0);
         });
     }
 
@@ -29,6 +32,6 @@ class CreateSpintaxInputsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('spintax_inputs');
+        Schema::dropIfExists('feedbacks');
     }
 }

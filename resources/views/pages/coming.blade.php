@@ -1,11 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.app-main')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="section-block" style="text-align: center">
+                <h1 class="section-title">More coming soon</h1>
+                <div class="section-body mb-4">
+                    <p>Send me feedbacks, suggestions, questions or any.</p>
+                </div>
+            </div>
             <div class="card">
-                <div class="card-header">{{ __('Contact') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('feedback.create') }}">

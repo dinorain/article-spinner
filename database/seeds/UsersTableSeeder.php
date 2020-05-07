@@ -17,9 +17,9 @@ class UsersTableSeeder extends Seeder
         $data = [
             // 1
             [
-                'username' => 'admin',
-                'email' => 'admin@spintax.com',
-                'password' => bcrypt('password'),
+                'username' => 'Dustin Jourdan',
+                'email' => 'djourdan555@gmail.com',
+                'password' => bcrypt('qazwsxedcrfvtgbyhnujmikolp'),
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]

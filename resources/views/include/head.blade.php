@@ -1,4 +1,4 @@
-<title>{{ config('app.name', 'SPINTAX') }}</title>
+<title>{{ config('app.name', 'ARCSPIN') }}</title>
 
 <!-- Required meta tags always come first -->
 <meta charset="utf-8">

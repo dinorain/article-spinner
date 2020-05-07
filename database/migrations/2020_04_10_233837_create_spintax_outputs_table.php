@@ -14,7 +14,6 @@ class CreateSpintaxOutputsTable extends Migration
     public function up()
     {
         Schema::create('spintax_outputs', function (Blueprint $table) {
-            $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
 

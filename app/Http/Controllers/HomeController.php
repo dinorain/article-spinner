@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+
 use App\Model\SpintaxInput;
 use App\Model\SpintaxOutput;
 
@@ -57,8 +60,8 @@ class HomeController extends Controller
     public function spintax($result, $target, $synonyms) {
         if ($synonyms != '') {
             $result =
-                $result
-                .'{'
+                $result.
+                '{'
                 .($target !== '' ? $target.'|'.$synonyms : $synonyms)
                 .'}';
         }
@@ -68,7 +71,7 @@ class HomeController extends Controller
     public function process_spintax($text, $type)
     {
         $spintaxInputs = SpintaxInput::all();
-        $spintaxCollections = SpintaxOutput::orderBy('spintax', 'ASC')->get();
+        $spintaxCollections = SpintaxOutput::inRandomOrder()->get();
         $spintaxTargetIdDict = [];
         foreach ($spintaxInputs as $si)
             $spintaxTargetIdDict[$si->id] = '';
@@ -89,7 +92,7 @@ class HomeController extends Controller
                 foreach ($parts as $p) {
                     $trimmed_p = trim($p);
                     $t = SpintaxInput::where('target', strtolower($trimmed_p))->first();
-                    if (strlen($trimmed_p) == 1 || (strlen($trimmed_p) > 1 && !$this->is_part_upper(substr($trimmed_p,1))))
+                    if (strlen($trimmed_p) == 1 || (strlen($trimmed_p) > 1 && !$this->is_part_upper(substr($trimmed_p, 1))))
                     {
                         if ($this->starts_with_upper($trimmed_p)) {
                             if ($t != null) {
@@ -104,7 +107,25 @@ class HomeController extends Controller
                                 }
                             }
                             else {
-                                $spintaxText = $spintaxText.$trimmed_p;
+                                $client =  new Client;
+                                $res = $client->request('POST','https://www.persamaankata.com/search.php',[
+                                    'form_params' => [
+                                        'q' =>  $trimmed_p
+                                    ]
+                                ]);
+                                $regs = '/<div class="word_thesaurus">(.*?)<\/div>/s';
+
+
+                                if (preg_match($regs, $res->getBody(), $list) ){
+                                    $res_word = strip_tags($list[1]);
+                                    $res_arr = array_map('trim', explode(",", $res_word));
+                                    if ($type === 'spintax1')
+                                        array_push($res_arr, $trimmed_p);
+                                    shuffle($res_arr);
+                                    $spintaxText = $spintaxText."{".ucwords(implode("|",$res_arr), "|")."}";
+                                }
+                                else
+                                    $spintaxText = $spintaxText.$trimmed_p;
                             }
                         }
                         else
@@ -121,7 +142,23 @@ class HomeController extends Controller
                                 }
                             }
                             else {
-                                $spintaxText = $spintaxText.$trimmed_p;
+                                $client =  new Client;
+                                $res = $client->request('POST','https://www.persamaankata.com/search.php',[
+                                    'form_params' => [
+                                        'q' =>  $trimmed_p
+                                    ]
+                                ]);
+                                $regs = '/<div class="word_thesaurus">(.*?)<\/div>/s';
+                                if (preg_match($regs, $res->getBody(), $list) ){
+                                    $res_word = strip_tags($list[1]);
+                                    $res_arr = array_map('trim', explode(",", $res_word));
+                                    if ($type === 'spintax1')
+                                        array_push($res_arr, $trimmed_p);
+                                    shuffle($res_arr);
+                                    $spintaxText = $spintaxText."{".implode("|",$res_arr)."}";
+                                }
+                                else
+                                    $spintaxText = $spintaxText.$trimmed_p;
                             }
                         }
                     }
@@ -177,5 +214,25 @@ class HomeController extends Controller
             'output2' => null
         ];
         return view('pages.welcome')->with($data);
+    }
+
+    public function contact()
+    {
+        return view('pages.contact');
+    }
+
+    public function about()
+    {
+        return view('pages.about');
+    }
+
+    public function coming()
+    {
+        return view('pages.coming');
+    }
+
+    public function thank(Request $request)
+    {
+        return view('pages.thank-you')->with(['name' => $request->name]);
     }
 }

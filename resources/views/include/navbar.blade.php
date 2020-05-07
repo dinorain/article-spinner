@@ -2,7 +2,7 @@
     @if (Auth::check())
         <a class="navbar-brand" href="{{ route('admin.index') }}">{{ config('app.name', 'ARCSPIN') }}</a>
     @else
-        <a class="navbar-brand" href="/">{{ config('app.name', 'ARSPIN') }}</a>
+        <a class="navbar-brand" href="{{ config('app.url', '/') }}">{{ config('app.name', 'ARCSPIN') }}</a>
     @endif
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,5 +23,6 @@
                 </li>
             </ul>
         </div>
+    @else
     @endif
 </nav>
