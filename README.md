@@ -1,1 +1,1 @@
-# ARCSPIN - ARTICLE SPINNER
+# ARCSPIN - Article Spinner
